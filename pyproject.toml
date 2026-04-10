@@ -5,8 +5,12 @@ description = "Sample A2A agent fronting MCP"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "google-adk[a2a]>=1.21.0",
+    "google-adk[a2a]==2.0.0a3",
     "fastapi",
     "uvicorn",
     "mcp",
 ]
+
+[[tool.uv.index]]
+url = "https://pypi.org/simple"
+default = true

@@ -1,80 +1,63 @@
 import asyncio
 import sys
 import os
+from google.adk import Runner
+from google.adk.sessions.in_memory_session_service import InMemorySessionService
+from google.genai import types
 
 # Add current directory to path to import local modules
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from a2a_agent import root_agent, call_mcp
+from sample_a2a_head.agent import root_agent
 
-async def run_scenario(name, prompt, simulate_logic):
+async def run_scenario(name, prompt):
     print(f"\n=== Scenario: {name} ===")
-    print(f"[Gemini Enterprise -> A2A Agent] Prompt: {prompt}\n")
-    await simulate_logic()
+    print(f"[User] Prompt: {prompt}\n")
+    
+    # Create the runner
+    runner = Runner(
+        app_name="campaign_agent",
+        agent=root_agent,
+        session_service=InMemorySessionService(),
+        auto_create_session=True
+    )
+    
+    # Run the agent
+    # We use run_async since we are in an async function
+    events = runner.run_async(
+        user_id="test_user",
+        session_id="test_session",
+        new_message=types.Content(parts=[types.Part.from_text(text=prompt)])
+    )
+    
+    async for event in events:
+        # Print the event to see what's happening
+        if event.content:
+             for part in event.content.parts:
+                 if part.text:
+                     print(f"[Agent Response]: {part.text}")
+                 elif part.function_call:
+                     print(f"[Tool Call]: {part.function_call.name}({part.function_call.args})")
+                 elif part.function_response:
+                     print(f"[Tool Response]: {part.function_response.response}")
+    
     print("=" * 40)
 
-async def test_e2e_simulation():
-    print("Starting E2E Orchestration Simulation with Robustness Scenarios...")
+async def test_e2e():
+    print("Starting Real E2E Orchestration Test with MCP...")
     
     # Scenario 1: Happy Path
-    async def scenario_1():
-        print("[A2A Agent] Starting orchestration...")
-        proj = call_mcp("get_project_details", {"project_name": "Product Launch"})
-        layout = call_mcp("get_layout_details", {"layout_name": "Launch Layout"})
-        aud = call_mcp("get_audience_details", {"segment_name": "Marketers"})
-        
-        campaign = (
-            f"Campaign Summary:\n"
-            f"- Project: {proj}\n"
-            f"- Layout: {layout}\n"
-            f"- Audience: {aud}\n"
-            f"Campaign generated successfully!"
-        )
-        print(f"\n[A2A Agent -> Gemini Enterprise] Response:\n{campaign}")
-
     await run_scenario("Full Information (Happy Path)", 
-                       "Generate an email campaign for Product Launch, using Launch Layout for Marketers.", 
-                       scenario_1)
+                       "Generate an email campaign for Product Launch, using Launch Layout for Marketers.")
 
-    # Scenario 2: Missing Information (Handling incomplete requests)
-    async def scenario_2():
-        print("[A2A Agent] Starting orchestration...")
-        proj = call_mcp("get_project_details", {"project_name": "Product Launch"})
-        aud = call_mcp("get_audience_details", {"segment_name": "Marketers"})
-        
-        print("\n[A2A Agent] Notice: Layout was not specified in the request.")
-        print("[A2A Agent] Strategy: Falling back to default layout or asking user.")
-        
-        campaign = (
-            f"Campaign Summary (Draft):\n"
-            f"- Project: {proj}\n"
-            f"- Layout: PENDING (Please specify a layout)\n"
-            f"- Audience: {aud}\n"
-            f"I have gathered the project and audience details, but I need you to specify a layout to complete the campaign."
-        )
-        print(f"\n[A2A Agent -> Gemini Enterprise] Response:\n{campaign}")
+    # Scenario 2: Missing Information
+    await run_scenario("Missing Layout", 
+                       "Generate a campaign for Product Launch targeted at Marketers.")
 
-    await run_scenario("Missing Layout (Graceful Degradation)", 
-                       "Generate a campaign for Product Launch targeted at Marketers.", 
-                       scenario_2)
-
-    # Scenario 3: Invalid Input (Error Handling)
-    async def scenario_3():
-        print("[A2A Agent] Starting orchestration...")
-        
-        # Simulate tool call returning error
-        print("[A2A Agent -> MCP] Invoking tool 'get_project_details' with arguments: {'project_name': 'Unknown Project'}")
-        result = "Error: Project not found."
-        print(f"[A2A Agent] Result: {result}")
-        
-        print("\n[A2A Agent] Strategy: Aborting generation and informing user of the specific error.")
-        
-        response = "I'm sorry, I couldn't find a project named 'Unknown Project'. Please verify the project name and try again."
-        print(f"\n[A2A Agent -> Gemini Enterprise] Response:\n{response}")
-
-    await run_scenario("Invalid Project (Error Handling)", 
-                       "Generate a campaign for Unknown Project using Launch Layout.", 
-                       scenario_3)
+    # Scenario 3: Invalid Input
+    await run_scenario("Invalid Project", 
+                       "Generate a campaign for Unknown Project using Launch Layout.")
 
 if __name__ == "__main__":
-    asyncio.run(test_e2e_simulation())
+    asyncio.run(test_e2e())
+

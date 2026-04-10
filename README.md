@@ -10,6 +10,7 @@ This repository contains a sample implementation demonstrating how an ISV can fr
 - [3. Prescriptive Guidance: Orchestration & MCP](#3-prescriptive-guidance-orchestration--mcp)
   - [Orchestration at the A2A Layer](#orchestration-at-the-a2a-layer)
   - [Local vs. MCP Tools](#local-vs-mcp-tools)
+  - [MCP Tool Registration & Request Flow](#mcp-tool-registration--request-flow)
   - [Error & Interrupt Handling](#error--interrupt-handling)
 - [4. Getting Started](#4-getting-started)
 
@@ -115,9 +116,40 @@ During our development and testing, we addressed common questions regarding agen
 When fronting your services with an A2A agent, the orchestration burden shifts to the A2A agent. It receives the user prompt from Gemini Enterprise, breaks it down, and calls the necessary tools (local or remote via MCP) to gather context before generating the final response. This gives you full control over business logic and error handling.
 
 ### Local vs. MCP Tools
-- In this sample (`campaign_agent/agent.py`), tools are implemented as **local Python functions** for simplicity and speed of local testing.
-- The `mcp_server.py` file demonstrates how to define these same tools as an MCP server using `FastMCP`.
-- To move to production, you can modify the agent to use an MCP client to connect to your running MCP server via stdio or SSE, instead of calling local functions.
+- In this sample (`a2a_agent.py`), tools are exposed via a real **MCP Server** (`mcp_server.py`) and consumed by the agent using the native Google ADK `McpToolset`.
+- This demonstrates a production-grade setup where the agent communicates with the tool server via standard I/O (stdio).
+
+### MCP Tool Registration & Request Flow
+
+Here is how MCP tools are registered and how requests resolve to them in this native integration setup.
+
+#### 1. Registration & Discovery
+The agent uses `McpToolset` and `StdioServerParameters` to connect to the MCP server (`mcp_server.py`). At runtime, ADK queries the MCP server via `ListToolsRequest` to discover available tools and exposes them to the LLM as function declarations.
+
+#### 2. Request Flow Sequence
+The following sequence diagram illustrates how an incoming request resolves to MCP tools:
+
+```mermaid
+sequenceDiagram
+    participant User as 🧑‍💻 User (Test Runner)
+    participant ADK as 🤖 ADK Framework (Runner)
+    participant Gemini as 🧠 Gemini Model (Vertex AI)
+    participant MCP as 🛠️ MCP Server (mcp_server.py)
+
+    User->>ADK: Sends Prompt ("Generate campaign for Product Launch...")
+    ADK->>ADK: Initializes session & loads tools from McpToolset
+    ADK->>Gemini: Sends Prompt + Tool Definitions
+    Note over Gemini: Model decides it needs more info<br/>and selects a tool.
+    Gemini->>ADK: Returns Function Call (e.g., get_project_details)
+    ADK->>ADK: Intercepts call & routes to McpToolset
+    ADK->>MCP: Sends 'CallToolRequest' via stdio pipe
+    Note over MCP: Runs Python function<br/>get_project_details()
+    MCP->>ADK: Returns structured result ("Project resolved...")
+    ADK->>Gemini: Sends tool result back to model
+    Note over Gemini: Model continues reasoning<br/>or generates final answer.
+    Gemini->>ADK: Returns final text response
+    ADK->>User: Yields final response to user
+```
 
 ### Error & Interrupt Handling
 Review `test_e2e_simulation.py` for examples of how the agent should handle:
