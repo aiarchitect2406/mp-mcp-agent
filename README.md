@@ -96,9 +96,27 @@ graph TD
 - **Pros**: Strict isolation, high security, data residency compliance.
 - **Cons**: Higher infrastructure cost and management complexity.
 
-## 3. Getting Started
+## 3. Prescriptive Guidance: Orchestration & MCP
+
+During our development and testing, we addressed common questions regarding agent orchestration and MCP integration:
+
+### Orchestration at the A2A Layer
+When fronting your services with an A2A agent, the orchestration burden shifts to the A2A agent. It receives the user prompt from Gemini Enterprise, breaks it down, and calls the necessary tools (local or remote via MCP) to gather context before generating the final response. This gives you full control over business logic and error handling.
+
+### Local vs. MCP Tools
+- In this sample (`campaign_agent/agent.py`), tools are implemented as **local Python functions** for simplicity and speed of local testing.
+- The `mcp_server.py` file demonstrates how to define these same tools as an MCP server using `FastMCP`.
+- To move to production, you can modify the agent to use an MCP client to connect to your running MCP server via stdio or SSE, instead of calling local functions.
+
+### Error & Interrupt Handling
+Review `test_e2e_simulation.py` for examples of how the agent should handle:
+- **Missing Information**: Graceful degradation when the user prompt lacks required details.
+- **Invalid Input**: Error handling when tools return errors (e.g., project not found).
+
+## 4. Getting Started
 
 For detailed instructions on how to build, deploy, and test this sample, please refer to the:
+
 👉 **[USER_GUIDE.md](USER_GUIDE.md)**
 
 For more details on security (OAuth, DCR) and Marketplace listing, see:

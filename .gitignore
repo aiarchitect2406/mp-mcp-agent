@@ -5,3 +5,8 @@ __pycache__/
 .terraform/
 *.tfstate
 *.tfstate.backup
+tmp/
+.env
+.adk/
+*.db
+openapi.json

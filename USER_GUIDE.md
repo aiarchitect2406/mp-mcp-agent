@@ -18,11 +18,30 @@ Before you begin, ensure you have the following installed and configured:
 3.  **Terraform**: To provision the infrastructure.
 4.  **Python 3.12+**: To run local tests.
 
+## Local Development and Testing (Recommended First Step)
+
+Before deploying to Google Cloud, we recommend testing the agent locally using the ADK Web UI. This allows you to verify the agent's reasoning and tool orchestration in an interactive chat interface.
+
+### 1. Run the ADK Web UI
+From the root directory of the project, run:
+```bash
+uv run --default-index https://pypi.org/simple adk web --port 8081 .
+```
+> [!NOTE]
+> We use `--default-index https://pypi.org/simple` to ensure dependencies are fetched from the public PyPI registry if you face authentication issues with configured private indices.
+
+### 2. Interact with the Agent
+1.  Open your browser and navigate to `http://127.0.0.1:8081`.
+2.  Select `campaign_agent` from the list of available apps.
+3.  Try sending a prompt like: `Generate an email campaign for April Launch, using Launch Layout for Marketers.`
+4.  Observe the agent calling tools sequentially to resolve details before responding.
+
 ---
 
 ## Step 1: Build and Push the Container
 
 We recommend using Google Artifact Registry to store your container image.
+
 
 1.  **Create a repository** in Artifact Registry (if you don't have one):
     ```bash
