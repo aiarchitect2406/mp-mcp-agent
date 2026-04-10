@@ -170,5 +170,3 @@ For detailed instructions on how to build, deploy, and test this sample, please 
 
 👉 **[USER_GUIDE.md](USER_GUIDE.md)**
 
-For more details on security (OAuth, DCR) and Marketplace listing, see:
-👉 **[MARKETPLACE_GUIDE.md](MARKETPLACE_GUIDE.md)**
