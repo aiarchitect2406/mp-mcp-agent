@@ -19,7 +19,7 @@ The following diagram showcases the standard flow from procurement to consumptio
 
 ```mermaid
 graph TD
-    subgraph Google Cloud (Customer Tenant)
+    subgraph "Google Cloud (Customer Tenant)"
         User([🧑‍💻 End User])
         GE[🤖 Gemini Enterprise]
         MP[🛒 Google Cloud Marketplace]
@@ -81,7 +81,7 @@ graph TD
         TR[(Tenant Registry)]
     end
 
-    subgraph Tenant A Project (Isolated)
+    subgraph "Tenant A Project (Isolated)"
         subgraph Cloud Run A
             A2A_A[🤖 Agent A]
             MCP_A[🛠️ MCP A]
@@ -89,7 +89,7 @@ graph TD
         DB_A[(Data A)]
     end
 
-    subgraph Tenant B Project (Isolated)
+    subgraph "Tenant B Project (Isolated)"
         subgraph Cloud Run B
             A2A_B[🤖 Agent B]
             MCP_B[🛠️ MCP B]
