@@ -30,6 +30,14 @@ resource "google_cloud_run_v2_service" "a2a_agent" {
       ports {
         container_port = 8080
       }
+      env {
+        name  = "GOOGLE_GENAI_USE_VERTEXAI"
+        value = "TRUE"
+      }
+      env {
+        name  = "GOOGLE_CLOUD_PROJECT"
+        value = var.project_id
+      }
     }
   }
 }

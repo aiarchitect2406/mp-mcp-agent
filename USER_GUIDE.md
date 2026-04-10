@@ -124,13 +124,13 @@ You can run these tests locally to verify the logic before or after deployment.
 
 1.  **Validate Agent Card**:
     ```bash
-    uv run python test_agent_card.py
+    uv run python tests/test_agent_card.py
     ```
     This checks that `agent.json` exists and is valid.
 
 2.  **Run E2E Orchestration Test**:
     ```bash
-    GOOGLE_CLOUD_PROJECT=[YOUR_PROJECT_ID] GOOGLE_GENAI_USE_VERTEXAI=TRUE uv run python test_e2e_simulation.py
+    GOOGLE_CLOUD_PROJECT=[YOUR_PROJECT_ID] GOOGLE_GENAI_USE_VERTEXAI=TRUE uv run python tests/test_e2e_simulation.py
     ```
     This runs a real end-to-end test where the A2A agent connects to the `mcp_server.py` via native MCP (stdio) and invokes tools to fulfill the user request. Ensure you have authenticated with Google Cloud and set your project ID.
 

@@ -11,6 +11,7 @@ This repository contains a sample implementation demonstrating how an ISV can fr
   - [Orchestration at the A2A Layer](#orchestration-at-the-a2a-layer)
   - [Local vs. MCP Tools](#local-vs-mcp-tools)
   - [MCP Tool Registration & Request Flow](#mcp-tool-registration--request-flow)
+  - [Agent Card (agent.json)](#agent-card-agentjson)
   - [Error & Interrupt Handling](#error--interrupt-handling)
 - [4. Getting Started](#4-getting-started)
 
@@ -150,6 +151,10 @@ sequenceDiagram
     Gemini->>ADK: Returns final text response
     ADK->>User: Yields final response to user
 ```
+
+### Agent Card (`agent.json`)
+
+The `agent.json` file at the root is the **Agent Card** (Discovery Document) required by the A2A protocol. It describes the agent's name, description, and skills. Gemini Enterprise reads this file at `.well-known/agent.json` to discover the agent's capabilities during Dynamic Client Registration.
 
 ### Error & Interrupt Handling
 Review `test_e2e_simulation.py` for examples of how the agent should handle:
