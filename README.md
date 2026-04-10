@@ -17,14 +17,13 @@ This repository contains a sample implementation demonstrating how an ISV can fr
 
 ## 1. End-to-End Architecture
 
-The following diagram showcases the standard flow from procurement to consumption.
+The following diagram showcases the standard runtime flow, focusing on the technical execution and security handshakes.
 
 ```mermaid
 graph TD
-    subgraph "Google Cloud (Customer Tenant)"
+    subgraph Google Cloud (Customer Tenant)
         User([🧑‍💻 End User])
         GE[🤖 Gemini Enterprise]
-        MP[🛒 Google Cloud Marketplace]
     end
 
     subgraph ISV Tenant
@@ -36,20 +35,24 @@ graph TD
         DB[(ISV Data & APIs)]
     end
 
-    %% Flows
-    User -->|1. Procures Agent| MP
-    MP -->|2. Notifies Entitlement| A2A
-    GE -->|3. Dynamic Client Registration| A2A
-    A2A -->|4. Returns Credentials| GE
-    User -->|5. Prompts 'Generate Campaign'| GE
-    GE -->|6. OAuth Auth Code Flow| IdP
-    IdP -->|7. Returns Access Token| GE
-    GE -->|8. A2A SendMessage + Token| A2A
-    A2A -->|9. Validates Token| IdP
-    A2A -->|10. Calls Tools via stdio| MCP
-    MCP -->|11. Fetches Assets| DB
-    A2A -->|12. Returns Campaign| GE
-    GE -->|13. Displays to User| User
+    %% Setup Flow (DCR)
+    GE -->|1. Dynamic Client Registration| A2A
+    A2A -->|2. Returns Credentials| GE
+
+    %% Consumption & Security Flow (Runtime)
+    User -->|3. Prompts 'Generate Campaign'| GE
+    GE -->|4. OAuth Auth Code Flow| IdP
+    IdP -->|5. Returns Access Token| GE
+    GE -->|6. A2A SendMessage + Token| A2A
+    A2A -->|7. Validates Token| IdP
+    A2A -->|8. Calls Tools via stdio| MCP
+    MCP -->|9. Fetches Assets| DB
+    A2A -->|10. Returns Campaign| GE
+    GE -->|11. Displays to User| User
+
+    style A2A fill:#f9f,stroke:#333,stroke-width:2px
+    style MCP fill:#bbf,stroke:#333,stroke-width:2px
+    style GE fill:#dfd,stroke:#333,stroke-width:2px
 ```
 
 ## 2. Multi-Tenancy Patterns

@@ -134,12 +134,4 @@ You can run these tests locally to verify the logic before or after deployment.
     ```
     This runs a real end-to-end test where the A2A agent connects to the `mcp_server.py` via native MCP (stdio) and invokes tools to fulfill the user request. Ensure you have authenticated with Google Cloud and set your project ID.
 
----
 
-## Step 5: Next Steps (Marketplace Integration)
-
-Now that your agent is running publicly, you need to:
-1.  Configure **OAuth 2.0** to secure the endpoints.
-2.  Publish the Agent Card URL to the **Gemini Enterprise** team or Marketplace.
-
-For detailed steps on security and Marketplace listing, please refer to the [MARKETPLACE_GUIDE.md](../MARKETPLACE_GUIDE.md) included in this package.
