@@ -2,6 +2,18 @@
 
 This guide provides step-by-step instructions to get the Sample A2A Agent and MCP Server up and running in your Google Cloud environment.
 
+## Table of Contents
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [Local Development and Testing (Recommended First Step)](#local-development-and-testing-recommended-first-step)
+  - [1. Run the ADK Web UI](#1-run-the-adk-web-ui)
+  - [2. Interact with the Agent](#2-interact-with-the-agent)
+- [Step 1: Build and Push the Container](#step-1-build-and-push-the-container)
+- [Step 2: Deploy with Terraform](#step-2-deploy-with-terraform)
+- [Step 3: Verify the Deployment](#step-3-verify-the-deployment)
+- [Step 4: Run Automated Tests](#step-4-run-automated-tests)
+- [Step 5: Next Steps (Marketplace Integration)](#step-5-next-steps-marketplace-integration)
+
 ## Overview
 
 This deliverable contains:
