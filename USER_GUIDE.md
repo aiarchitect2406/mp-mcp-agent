@@ -1,6 +1,6 @@
-# User Guide: Deploying the Typeface A2A + MCP Agent
+# User Guide: Deploying the Sample A2A + MCP Agent
 
-This guide provides step-by-step instructions to get the Typeface A2A Agent and MCP Server up and running in your Google Cloud environment.
+This guide provides step-by-step instructions to get the Sample A2A Agent and MCP Server up and running in your Google Cloud environment.
 
 ## Overview
 
@@ -26,7 +26,7 @@ We recommend using Google Artifact Registry to store your container image.
 
 1.  **Create a repository** in Artifact Registry (if you don't have one):
     ```bash
-    gcloud artifacts repositories create typeface-repo \
+    gcloud artifacts repositories create sample-repo \
         --repository-format=docker \
         --location=us-central1
     ```
@@ -39,13 +39,13 @@ We recommend using Google Artifact Registry to store your container image.
 3.  **Build the Docker image**:
     From the root directory of this project, run:
     ```bash
-    docker build -t us-central1-docker.pkg.dev/[YOUR_PROJECT_ID]/typeface-repo/a2a-agent:latest .
+    docker build -t us-central1-docker.pkg.dev/[YOUR_PROJECT_ID]/sample-repo/a2a-agent:latest .
     ```
     *Replace `[YOUR_PROJECT_ID]` with your actual GCP project ID.*
 
 4.  **Push the image**:
     ```bash
-    docker push us-central1-docker.pkg.dev/[YOUR_PROJECT_ID]/typeface-repo/a2a-agent:latest
+    docker push us-central1-docker.pkg.dev/[YOUR_PROJECT_ID]/sample-repo/a2a-agent:latest
     ```
 
 ---
@@ -68,7 +68,7 @@ Now we will deploy the container to Cloud Run using Terraform.
     ```bash
     terraform apply \
         -var="project_id=[YOUR_PROJECT_ID]" \
-        -var="image_uri=us-central1-docker.pkg.dev/[YOUR_PROJECT_ID]/typeface-repo/a2a-agent:latest"
+        -var="image_uri=us-central1-docker.pkg.dev/[YOUR_PROJECT_ID]/sample-repo/a2a-agent:latest"
     ```
     *Review the plan and type `yes` to confirm.*
 
@@ -81,7 +81,7 @@ Now we will deploy the container to Cloud Run using Terraform.
 1.  Test the **Agent Card** endpoint:
     Open a browser or use `curl` to hit:
     ```bash
-    curl [YOUR_SERVICE_URL]/a2a/typeface_a2a_head/.well-known/agent.json
+    curl [YOUR_SERVICE_URL]/a2a/sample_a2a_head/.well-known/agent.json
     ```
     You should receive the JSON description of the agent.
 
@@ -93,13 +93,13 @@ You can run these tests locally to verify the logic before or after deployment.
 
 1.  **Validate Agent Card**:
     ```bash
-    python test_agent_card.py
+    python3 test_agent_card.py
     ```
     This checks that `agent.json` exists and is valid.
 
 2.  **Simulate E2E Orchestration**:
     ```bash
-    python test_e2e_simulation.py
+    python3 test_e2e_simulation.py
     ```
     This simulates a request from Gemini Enterprise and verifies that the A2A agent calls the mock MCP tools in the correct sequence to generate the campaign.
 

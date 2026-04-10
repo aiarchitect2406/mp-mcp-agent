@@ -1,6 +1,6 @@
-# A2A + MCP Agent Sample for Typeface
+# A2A + MCP Agent Sample
 
-This repository contains a sample implementation demonstrating how Typeface can front an existing **Model Context Protocol (MCP)** server with an **Agent-to-Agent (A2A)** layer to integrate with **Gemini Enterprise**.
+This repository contains a sample implementation demonstrating how an ISV can front an existing **Model Context Protocol (MCP)** server with an **Agent-to-Agent (A2A)** layer to integrate with **Gemini Enterprise**.
 
 ## 1. End-to-End Architecture
 
@@ -14,13 +14,13 @@ graph TD
         MP[🛒 Google Cloud Marketplace]
     end
 
-    subgraph ISV (Typeface) Tenant
+    subgraph ISV Tenant
         subgraph Cloud Run Container
             A2A[🤖 A2A Agent Head]
             MCP[🛠️ MCP Server]
         end
         IdP[🔐 Identity Provider / Auth]
-        DB[(Typeface Data & APIs)]
+        DB[(ISV Data & APIs)]
     end
 
     %% Flows

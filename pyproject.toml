@@ -1,10 +1,12 @@
 [project]
-name = "typefacempagent"
+name = "sample-mp-agent"
 version = "0.1.0"
-description = "Sample A2A agent for Typeface"
+description = "Sample A2A agent fronting MCP"
+readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "google-adk[a2a]>=1.21.0",
     "fastapi",
     "uvicorn",
+    "mcp",
 ]

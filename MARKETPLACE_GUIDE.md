@@ -1,6 +1,6 @@
 # Guide: Bringing Your A2A + MCP Agent to Gemini Enterprise Marketplace
 
-This guide outlines the architecture, security, and steps required for Typeface to list an AI agent on the Google Cloud Marketplace that fronts an existing MCP (Model Context Protocol) server.
+This guide outlines the architecture, security, and steps required for an ISV to list an AI agent on the Google Cloud Marketplace that fronts an existing MCP (Model Context Protocol) server.
 
 ## 1. End-to-End Architecture & Flow
 
@@ -14,13 +14,13 @@ graph TD
         MP[🛒 Google Cloud Marketplace]
     end
 
-    subgraph ISV (Typeface) Tenant
+    subgraph ISV Tenant
         subgraph Cloud Run Container
             A2A[🤖 A2A Agent Head]
             MCP[🛠️ MCP Server]
         end
         IdP[🔐 Identity Provider / Auth]
-        DB[(Typeface Data & APIs)]
+        DB[(ISV Data & APIs)]
     end
 
     %% Procurement Flow
@@ -60,10 +60,10 @@ By separating this into an MCP server, you can reuse these same tools across dif
 
 ## 3. How it is Procured from Marketplace
 
-1.  **Discovery**: The customer finds the "Typeface Campaign Agent" on the Google Cloud Marketplace.
+1.  **Discovery**: The customer finds the "Sample Campaign Agent" on the Google Cloud Marketplace.
 2.  **Purchase**: The customer purchases a subscription or private offer.
-3.  **Entitlement**: Google Cloud Marketplace notifies the Typeface backend (via Pub/Sub or webhook) that a new purchase has been made. Typeface creates an account/entitlement record for the customer.
-4.  **Activation**: The customer is redirected to the Typeface portal to complete setup or link their account.
+3.  **Entitlement**: Google Cloud Marketplace notifies the ISV backend (via Pub/Sub or webhook) that a new purchase has been made. The ISV creates an account/entitlement record for the customer.
+4.  **Activation**: The customer is redirected to the ISV portal to complete setup or link their account.
 
 ## 4. How it is Consumed & Secured
 

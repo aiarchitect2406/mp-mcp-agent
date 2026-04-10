@@ -20,7 +20,7 @@ variable "image_uri" {
 }
 
 resource "google_cloud_run_v2_service" "a2a_agent" {
-  name     = "typeface-a2a-agent"
+  name     = "sample-a2a-agent"
   location = var.region
   ingress  = "INGRESS_TRAFFIC_ALL"
 

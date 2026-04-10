@@ -11,7 +11,7 @@ def get_project_details(project_name: str) -> Dict[str, Any]:
     return {
         "project_name": project_name,
         "id": "proj_123",
-        "description": "Launch of Typeface's new product in April",
+        "description": "Launch of a new product in April",
         "status": "active"
     }
 
