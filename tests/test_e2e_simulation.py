@@ -5,8 +5,8 @@ from google.adk import Runner
 from google.adk.sessions.in_memory_session_service import InMemorySessionService
 from google.genai import types
 
-# Add current directory to path to import local modules
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Add parent directory to path to import local modules
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from sample_a2a_head.agent import root_agent
 
