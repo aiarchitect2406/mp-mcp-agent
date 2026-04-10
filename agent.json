@@ -1,0 +1,17 @@
+{
+  "capabilities": {},
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["application/json"],
+  "description": "Typeface A2A Head Agent that orchestrates MCP tools to generate campaigns.",
+  "name": "typeface_a2a_head",
+  "skills": [
+    {
+      "id": "campaign_generation",
+      "name": "Campaign Generation",
+      "description": "Generate an email campaign by orchestrating project, layout, and audience resolution.",
+      "tags": ["email", "campaign", "orchestration"]
+    }
+  ],
+  "url": "http://localhost:8001/a2a/typeface_a2a_head",
+  "version": "1.0.0"
+}

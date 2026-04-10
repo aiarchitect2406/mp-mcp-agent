@@ -1,0 +1,17 @@
+{
+  "capabilities": {},
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["application/json"],
+  "description": "An agent that generates email campaigns by resolving projects, layouts, and audiences.",
+  "name": "campaign_agent",
+  "skills": [
+    {
+      "id": "campaign_generation",
+      "name": "Campaign Generation",
+      "description": "Generate an email campaign with specific project, layout, and audience.",
+      "tags": ["email", "campaign", "generation"]
+    }
+  ],
+  "url": "http://localhost:8001/a2a/campaign_agent",
+  "version": "1.0.0"
+}

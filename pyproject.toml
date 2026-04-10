@@ -1,0 +1,10 @@
+[project]
+name = "typefacempagent"
+version = "0.1.0"
+description = "Sample A2A agent for Typeface"
+requires-python = ">=3.12"
+dependencies = [
+    "google-adk[a2a]>=1.21.0",
+    "fastapi",
+    "uvicorn",
+]
