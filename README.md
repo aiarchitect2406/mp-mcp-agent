@@ -2,6 +2,17 @@
 
 This repository contains a sample implementation demonstrating how an ISV can front an existing **Model Context Protocol (MCP)** server with an **Agent-to-Agent (A2A)** layer to integrate with **Gemini Enterprise**.
 
+## Table of Contents
+- [1. End-to-End Architecture](#1-end-to-end-architecture)
+- [2. Multi-Tenancy Patterns](#2-multi-tenancy-patterns)
+  - [Pattern A: Shared Instance with Context Passing (Simpler)](#pattern-a-shared-instance-with-context-passing-simpler)
+  - [Pattern B: Gateway + Dedicated Tenant Servers (Enterprise-Grade)](#pattern-b-gateway--dedicated-tenant-servers-enterprise-grade)
+- [3. Prescriptive Guidance: Orchestration & MCP](#3-prescriptive-guidance-orchestration--mcp)
+  - [Orchestration at the A2A Layer](#orchestration-at-the-a2a-layer)
+  - [Local vs. MCP Tools](#local-vs-mcp-tools)
+  - [Error & Interrupt Handling](#error--interrupt-handling)
+- [4. Getting Started](#4-getting-started)
+
 ## 1. End-to-End Architecture
 
 The following diagram showcases the standard flow from procurement to consumption.
