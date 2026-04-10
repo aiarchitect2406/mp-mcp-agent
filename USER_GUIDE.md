@@ -33,7 +33,7 @@ uv run --default-index https://pypi.org/simple adk web --port 8081 .
 ### 2. Interact with the Agent
 1.  Open your browser and navigate to `http://127.0.0.1:8081`.
 2.  Select `campaign_agent` from the list of available apps.
-3.  Try sending a prompt like: `Generate an email campaign for April Launch, using Launch Layout for Marketers.`
+3.  Try sending a prompt like: `Generate an email campaign for Product Launch, using Launch Layout for Marketers.`
 4.  Observe the agent calling tools sequentially to resolve details before responding.
 
 ---

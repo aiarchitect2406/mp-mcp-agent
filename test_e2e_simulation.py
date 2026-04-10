@@ -19,7 +19,7 @@ async def test_e2e_simulation():
     # Scenario 1: Happy Path
     async def scenario_1():
         print("[A2A Agent] Starting orchestration...")
-        proj = call_mcp("get_project_details", {"project_name": "April Launch"})
+        proj = call_mcp("get_project_details", {"project_name": "Product Launch"})
         layout = call_mcp("get_layout_details", {"layout_name": "Launch Layout"})
         aud = call_mcp("get_audience_details", {"segment_name": "Marketers"})
         
@@ -33,13 +33,13 @@ async def test_e2e_simulation():
         print(f"\n[A2A Agent -> Gemini Enterprise] Response:\n{campaign}")
 
     await run_scenario("Full Information (Happy Path)", 
-                       "Generate an email campaign for April Launch, using Launch Layout for Marketers.", 
+                       "Generate an email campaign for Product Launch, using Launch Layout for Marketers.", 
                        scenario_1)
 
     # Scenario 2: Missing Information (Handling incomplete requests)
     async def scenario_2():
         print("[A2A Agent] Starting orchestration...")
-        proj = call_mcp("get_project_details", {"project_name": "April Launch"})
+        proj = call_mcp("get_project_details", {"project_name": "Product Launch"})
         aud = call_mcp("get_audience_details", {"segment_name": "Marketers"})
         
         print("\n[A2A Agent] Notice: Layout was not specified in the request.")
@@ -55,7 +55,7 @@ async def test_e2e_simulation():
         print(f"\n[A2A Agent -> Gemini Enterprise] Response:\n{campaign}")
 
     await run_scenario("Missing Layout (Graceful Degradation)", 
-                       "Generate a campaign for April Launch targeted at Marketers.", 
+                       "Generate a campaign for Product Launch targeted at Marketers.", 
                        scenario_2)
 
     # Scenario 3: Invalid Input (Error Handling)
