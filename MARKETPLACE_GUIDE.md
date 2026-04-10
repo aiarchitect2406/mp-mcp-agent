@@ -2,16 +2,15 @@
 
 This guide outlines the architecture, security, and steps required for an ISV to list an AI agent on the Google Cloud Marketplace that fronts an existing MCP (Model Context Protocol) server.
 
-## 1. End-to-End Architecture & Flow
+## 1. End-to-End Runtime Architecture & Flow
 
-The following diagram showcases how the stack works, from procurement to consumption, including the security handshakes.
+The following diagram showcases how the stack works at runtime, focusing on the technical execution and security handshakes.
 
 ```mermaid
 graph TD
     subgraph Google Cloud (Customer Tenant)
         User([🧑‍💻 End User])
         GE[🤖 Gemini Enterprise]
-        MP[🛒 Google Cloud Marketplace]
     end
 
     subgraph ISV Tenant
@@ -23,29 +22,24 @@ graph TD
         DB[(ISV Data & APIs)]
     end
 
-    %% Procurement Flow
-    User -->|1. Procures Agent| MP
-    MP -->|2. Notifies Entitlement| A2A
-    
     %% Setup Flow (DCR)
-    GE -->|3. Dynamic Client Registration| A2A
-    A2A -->|4. Returns Credentials| GE
+    GE -->|1. Dynamic Client Registration| A2A
+    A2A -->|2. Returns Credentials| GE
 
-    %% Consumption & Security Flow
-    User -->|5. Prompts 'Generate Campaign'| GE
-    GE -->|6. OAuth Auth Code Flow| IdP
-    IdP -->|7. Returns Access Token| GE
-    GE -->|8. A2A SendMessage + Token| A2A
-    A2A -->|9. Validates Token| IdP
-    A2A -->|10. Calls Tools via stdio| MCP
-    MCP -->|11. Fetches Assets| DB
-    A2A -->|12. Returns Campaign| GE
-    GE -->|13. Displays to User| User
+    %% Consumption & Security Flow (Runtime)
+    User -->|3. Prompts 'Generate Campaign'| GE
+    GE -->|4. OAuth Auth Code Flow| IdP
+    IdP -->|5. Returns Access Token| GE
+    GE -->|6. A2A SendMessage + Token| A2A
+    A2A -->|7. Validates Token| IdP
+    A2A -->|8. Calls Tools via stdio| MCP
+    MCP -->|9. Fetches Assets| DB
+    A2A -->|10. Returns Campaign| GE
+    GE -->|11. Displays to User| User
 
     style A2A fill:#f9f,stroke:#333,stroke-width:2px
     style MCP fill:#bbf,stroke:#333,stroke-width:2px
     style GE fill:#dfd,stroke:#333,stroke-width:2px
-    style MP fill:#fdd,stroke:#333,stroke-width:2px
 ```
 
 ## 2. What the MCP Server Does
@@ -58,14 +52,7 @@ The **MCP Server** in this architecture acts as the **Data and Action Gateway** 
 
 By separating this into an MCP server, you can reuse these same tools across different agent interfaces (e.g., a web UI, a Slack bot, or Gemini Enterprise) without rewriting the core business logic.
 
-## 3. How it is Procured from Marketplace
-
-1.  **Discovery**: The customer finds the "Sample Campaign Agent" on the Google Cloud Marketplace.
-2.  **Purchase**: The customer purchases a subscription or private offer.
-3.  **Entitlement**: Google Cloud Marketplace notifies the ISV backend (via Pub/Sub or webhook) that a new purchase has been made. The ISV creates an account/entitlement record for the customer.
-4.  **Activation**: The customer is redirected to the ISV portal to complete setup or link their account.
-
-## 4. How it is Consumed & Secured
+## 3. How it is Secured & Consumed
 
 ### The Setup (Dynamic Client Registration)
 To avoid manual exchange of API keys, the system uses **DCR**:
