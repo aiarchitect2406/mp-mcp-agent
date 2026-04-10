@@ -21,13 +21,13 @@ The following diagram showcases the standard runtime flow, focusing on the techn
 
 ```mermaid
 graph TD
-    subgraph Google Cloud (Customer Tenant)
+    subgraph "Google Cloud (Customer Tenant)"
         User([🧑‍💻 End User])
         GE[🤖 Gemini Enterprise]
     end
 
-    subgraph ISV Tenant
-        subgraph Cloud Run Container
+    subgraph "ISV Tenant"
+        subgraph "Cloud Run Container"
             A2A[🤖 A2A Agent Head]
             MCP[🛠️ MCP Server]
         end
