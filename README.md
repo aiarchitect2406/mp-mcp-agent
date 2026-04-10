@@ -7,7 +7,7 @@ This repository contains a sample implementation demonstrating how an ISV can fr
 - [2. Multi-Tenancy Patterns](#2-multi-tenancy-patterns)
   - [Pattern A: Shared Instance with Context Passing (Simpler)](#pattern-a-shared-instance-with-context-passing-simpler)
   - [Pattern B: Gateway + Dedicated Tenant Servers (Enterprise-Grade)](#pattern-b-gateway--dedicated-tenant-servers-enterprise-grade)
-- [3. Prescriptive Guidance: Orchestration & MCP](#3-prescriptive-guidance-orchestration--mcp)
+- [3. Orchestration & MCP](#3-orchestration--mcp)
   - [Orchestration at the A2A Layer](#orchestration-at-the-a2a-layer)
   - [Local vs. MCP Tools](#local-vs-mcp-tools)
   - [MCP Tool Registration & Request Flow](#mcp-tool-registration--request-flow)
@@ -112,7 +112,7 @@ graph TD
 - **Pros**: Strict isolation, high security, data residency compliance.
 - **Cons**: Higher infrastructure cost and management complexity.
 
-## 3. Prescriptive Guidance: Orchestration & MCP
+## 3. Orchestration & MCP
 
 During our development and testing, we addressed common questions regarding agent orchestration and MCP integration:
 
