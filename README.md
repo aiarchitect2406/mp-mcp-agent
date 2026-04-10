@@ -65,7 +65,7 @@ A single A2A agent handles all customers. Isolation is managed at the software l
 ```mermaid
 graph TD
     GE[🤖 Gemini Enterprise] -->|Request + Token| A2A[🤖 Shared A2A Agent]
-    A2A -->|Extract Tenant ID| A2A
+    A2A -->|Extract & Validate| FS[(Firestore Tenant Registry)]
     A2A -->|Pass Tenant ID| MCP[🛠️ MCP Server]
     MCP -->|Query with Tenant Filter| DB[(Shared DB with Tenant Isolation)]
 ```
